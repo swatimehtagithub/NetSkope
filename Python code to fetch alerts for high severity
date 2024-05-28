@@ -1,0 +1,49 @@
+import requests
+import os
+
+# GitHub API base URL
+base_url = "https://api.github.com"
+
+# GitHub repository owner and name
+owner = "swatimehtagithub"
+repo_name = "NetSkope"
+
+# GitHub personal access token
+token = "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"
+
+# Fetch code scanning alerts
+def fetch_code_scanning_alerts():
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+
+    # Fetch code scanning alerts for the repository
+    response = requests.get(
+        f"https://github.com/repos/swatimehtagithub/NetSkope/code-scanning/alerts",
+        headers=headers
+    )
+
+    if response.status_code == 200:
+        alerts = response.json()
+
+        # Filter alerts by severity "high"
+        high_severity_alerts = [alert for alert in alerts if alert['severity'] == 'high']
+
+        return high_severity_alerts
+    else:
+        print(f"Failed to fetch code scanning alerts: {response.status_code}")
+        return None
+
+# Main function
+def main():
+    alerts = fetch_code_scanning_alerts()
+    if alerts:
+        print(f"Found {len(alerts)} high severity code scanning alerts for repository swatimehtagithub/NetSkope.git:")
+        for alert in alerts:
+            print(f"Alert ID: {alert['id']}, Rule: {alert['rule']['name']}, Message: {alert['message']}")
+    else:
+        print("No high severity code scanning alerts found.")
+
+if __name__ == "__main__":
+    main()
