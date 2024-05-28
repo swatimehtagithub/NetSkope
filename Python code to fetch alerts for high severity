@@ -9,7 +9,7 @@ owner = "swatimehtagithub"
 repo_name = "NetSkope"
 
 # GitHub personal access token
-token = "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"
+token = "<Access_token>"
 
 # Fetch code scanning alerts
 def fetch_code_scanning_alerts():
